@@ -1,10 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.markdownToTxt = void 0;
-const marked_1 = require("marked");
-const lodash_es_1 = require("lodash-es");
+import { marked } from "marked";
+import { escape, unescape } from "lodash-es";
 const block = (text) => text + "\n\n";
-const escapeBlock = (text) => (0, lodash_es_1.escape)(text) + "\n\n";
+const escapeBlock = (text) => escape(text) + "\n\n";
 const line = (text) => text + "\n";
 const inline = (text) => text;
 const newline = () => "\n";
@@ -48,11 +45,10 @@ const TxtRenderer = {
  * @param options  the marked options
  * @returns the unmarked text
  */
-function markdownToTxt(markdown, options) {
-    const unmarked = (0, marked_1.marked)(markdown, Object.assign(Object.assign({}, options), { renderer: TxtRenderer }));
-    const unescaped = (0, lodash_es_1.unescape)(unmarked);
+export function markdownToTxt(markdown, options) {
+    const unmarked = marked(markdown, { ...options, renderer: TxtRenderer });
+    const unescaped = unescape(unmarked);
     const trimmed = unescaped.trim();
     return trimmed;
 }
-exports.markdownToTxt = markdownToTxt;
-exports.default = markdownToTxt;
+export default markdownToTxt;
